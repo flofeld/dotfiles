@@ -1,19 +1,24 @@
 {
-  "margin-top": 5,
-  "margin-left": 10,
-  "margin-right": 10,
+  "margin-top": 3,
+  "margin-bottom": 3,
+  "margin-left": 20,
+  "margin-right": 20,
   "modules-left": [
     "hyprland/window"
   ],
   "modules-center": [
     "hyprland/workspaces",
+    "clock",
   ],
   "modules-right": [
     "pulseaudio",
     "network",
     "temperature",
+    "cpu",
+    "memory",
+    "disk",
     "battery",
-    "clock",
+    "tray"
   ],
   "hyprland/window": {
     "format": "{}",
@@ -32,8 +37,27 @@
     "sort-by": "id",
   },
   "clock": {
-    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-    "format-alt": "{:%Y-%m-%d}"
+    "interval": 10,
+    "format-alt": "{:%R %a %F}",
+    "tooltip-format": "<tt><big>{calendar}</big></tt>",
+        "calendar": {
+                    "mode"          : "month",
+                    "mode-mon-col"  : 3,
+                    "weeks-pos"     : "left",
+                    "on-scroll"     : 1,
+                    "format": {
+                              "months":     "<span color='#ffead3'><b>{}</b></span>",
+                              "days":       "<span color='#ecc6d9'><b>{}</b></span>",
+                              "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
+                              "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+                              "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+                              }
+                    },
+        "actions":  {
+                    "on-click-right": "mode",
+                    "on-scroll-up": "shift_up",
+                    "on-scroll-down": "shift_down"
+                    }
   },
   "cpu": {
     "format": "  {usage}%",
@@ -72,9 +96,9 @@
   },
   "network": {
     "format": "{ifname}",
-    "format-wifi": "  {signalStrength}%  {bandwidthDownBytes}  {bandwidthUpBytes} ",
+    "format-wifi": "  {essid} {signalStrength}%  {bandwidthDownBytes}  {bandwidthUpBytes} ",
     "format-ethernet": "   {bandwidthDownBytes}  {bandwidthUpBytes} ",
-    "format-disconnected": "Not connected",
+    "format-disconnected": "  Not connected",
     "tooltip-format": "  {ifname} via {gwaddri}",
     "tooltip-format-wifi": "   {essid} ({signalStrength}%)",
     "tooltip-format-ethernet": "  {ifname} ({ipaddr}/{cidr})",
@@ -104,6 +128,31 @@
         ""
       ]
     },
-    "on-click": "pavucontrol"
+    "on-click": "pulseaudio-control togmute",
+    "on-click-middle": "pavucontrol",
+    "on-click-right": "pulseaudio-control next-node"
   },
+  "cpu": {
+    "interval": 5,
+    "format": " {usage}%",
+    "on-click": "kitty btop",
+    "max-length": 7,
+    "tooltip": false,
+  },
+  "memory": {
+    "interval": 10,
+    "format": " {percentage}%",
+    "max-length": 7,
+    "on-click": "kitty btop",
+  },
+  "disk": {
+    "interval": 60,
+    "format": " {percentage_used}%",
+    "tooltip-format": "{used} used out of {total} \nFree: {free} ({percentage_free}%)"
+  },
+  "tray": {
+    "icon-size": 20,
+    "spacing": 3,
+    "show-passive-items": true,
+  }
 }
